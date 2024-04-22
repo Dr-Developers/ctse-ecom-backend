@@ -29,13 +29,13 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16.x'
-      - name: Install trivy      # Install trivy
-        run: |
-          sudo apt-get install wget apt-transport-https gnupg lsb-release
-          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
-          echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
-          sudo apt-get update
-          sudo apt-get install trivy
+    #   - name: Install trivy      # Install trivy
+    #     run: |
+    #       sudo apt-get install wget apt-transport-https gnupg lsb-release
+    #       wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+    #       echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+    #       sudo apt-get update
+    #       sudo apt-get install trivy
       - name: Install dependencies
         run: npm install
         working-directory: ./
@@ -45,14 +45,14 @@ jobs:
     #   - name: Run tests      # Unit test
     #     run: npm test
     #     working-directory: ./server
-      - name: Login to Docker Hub       # Docker login
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin 
-      - name: Build Docker image
-        run: docker build -t poornasankalana2024/ctse-ecom-backend .
-      - name: Docker Image Security Scan      # Docker image vulnerability security scan
-        run: trivy image poornasankalana2024/ctse-ecom-backend:latest --scanners vuln    #'--scanners vuln' to disable secret scanning
-      - name: Publish image to Docker Hub
-        run: docker push poornasankalana2024/ctse-ecom-backend:latest
+    #   - name: Login to Docker Hub       # Docker login
+    #     run: echo "${ secrets.DOCKER_PASSWORD }}" | docker login -u ${ secrets.DOCKER_USERNAME }} --password-stdin 
+    #   - name: Build Docker image
+    #     run: docker build -t kaveendev/ctse-assignment .
+    #   - name: Docker Image Security Scan      # Docker image vulnerability security scan
+    #     run: trivy image kaveendev/ctse-assignment:latest --scanners vuln    #'--scanners vuln' to disable secret scanning
+    #   - name: Publish image to Docker Hub
+    #     run: docker push kaveendev/ctse-assignment:latest
   
         
 #   deploy:
