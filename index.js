@@ -6,8 +6,9 @@ const router = require("./routes/product.route");
 const helmet = require("helmet");
 const fileUpload = require("express-fileupload");
 
-const app = express();
 dotenv.config();
+
+const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(helmet());
@@ -18,7 +19,7 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  return res.send("Hello World!");
 });
 
 connectDB();
