@@ -8,6 +8,19 @@ const {
   productDelete,
   productFavorite,
 } = require("../services/product.service");
+const dotenv = require("dotenv");
+const cloudinary = require("cloudinary");
+const fs = require("fs");
+
+
+// cloudinary configuration 
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
+
+dotenv.config();
 
 const addProduct = async (req, res) => {
   const result = await productRegister(req.body);
@@ -120,6 +133,57 @@ const getFavoriteProducts = async (req, res) => {
   });
 };
 
+const imageUpload = async (req, res) => {
+  try {
+    if (!req.files || Object.keys(req.files).length === 0)
+      return makeResponse({
+        res,
+        status: 400,
+        data: res,
+        message: "No files were uploaded.",
+      });
+
+    const file = req.files.file;
+    if (file.size > 1024 * 1024) {
+      removeTmp(file.tempFilePath);
+      return makeResponse({
+        res,
+        status: 400,
+        data: res,
+        message: "Size too large.",
+      });
+    }
+    if (file.mimetype !== "image/jpeg" && file.mimetype !== "image/png") {
+      removeTmp(file.tempFilePath);
+      return makeResponse({
+        res,
+        status: 400,
+        data: res,
+        message: "File format is incorrect.",
+      });
+    }
+    cloudinary.v2.uploader.upload(
+      file.tempFilePath,
+      { folder: "ProductImages" },
+      async (err, result) => {
+        if (err) throw err;
+        removeTmp(file.tempFilePath);
+        return res.json({
+          message: "image uploaded successfully", url: result.secure_url});
+          
+      }
+    );
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
+  }
+};
+
+const removeTmp = (path) => {
+  fs.unlink(path, (err) => {
+    if (err) throw err;
+  });
+};
+
 module.exports = {
   addProduct,
   updateProduct,
@@ -127,4 +191,5 @@ module.exports = {
   getOneProduct,
   deleteProduct,
   getFavoriteProducts,
+  imageUpload
 };
