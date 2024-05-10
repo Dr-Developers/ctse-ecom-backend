@@ -10,12 +10,7 @@ const app = express();
 
 dotenv.config();
 
-var corsOptions = {
-	origin: '*', // Specify the origin domain
-	optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
-
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use(helmet());
 app.use(
