@@ -60,8 +60,8 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Pull image from Docker Hub
-        run: sudo docker pull poornasankalana2024/ctse-ecom-backend:latest
+        run: docker pull poornasankalana2024/ctse-ecom-backend:latest
       - name: Delete old container
-        run: sudo docker rm -f ctse-ecom-backend-container
+        run: docker rm -f ctse-ecom-backend-container
       - name: Run Docker container
-        run: sudo docker run -d -p 5000:5000 --name ctse-ecom-backend-container poornasankalana2024/ctse-ecom-backend
+        run: docker run -d -p 5000:5000 --name ctse-ecom-backend-container poornasankalana2024/ctse-ecom-backend
