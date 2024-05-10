@@ -64,4 +64,4 @@ jobs:
       - name: Delete old container
         run: docker rm -f ctse-ecom-backend-container
       - name: Run Docker container
-        run: docker run -d -p 5000:5000 --name ctse-ecom-backend-container poornasankalana2024/ctse-ecom-backend
+        run: docker run -d -p 5000:5000 --env-file /home/ctse-assignment/ctse.env poornasankalana2024/ctse-ecom-backend:latest
