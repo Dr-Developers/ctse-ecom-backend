@@ -22,6 +22,7 @@ cloudinary.config({
 
 dotenv.config();
 
+// this is a comment
 const addProduct = async (req, res) => {
   const result = await productRegister(req.body);
   if (!result) {
